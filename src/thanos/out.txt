@@ -1,0 +1,149 @@
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python src/thanos/test_plan.py -vv --report
+usage: 
+
+options:
+  -h, --help            show this help message and exit
+  --info TEST_INFO      (default: None)
+                        "pattern" - List tests in `--patterns` / `--tags` compatible format.
+                                Max 25 testcases per suite will be displayed
+                        "name" - List tests in readable format.
+                                Max 25 testcases per suite will be displayed
+                        "pattern-full" - List tests in `--patterns` / `--tags` compatible format.
+                        "name-full" - List tests in readable format.
+                        "count" - Lists top level instances and total number of suites & testcases per instance.
+                        "json" - Dump test information in json. Can take json:/path/to/output.json as well, then the result is dumped to the file
+  --list                Shortcut for `--info name`.
+
+General:
+  --runpath PATH        Path under which all temp files and logs will be created.
+  --timeout TIMEOUT     Timeout value in seconds to kill Testplan and all child processes. Defaults to 14400s (4h). Set to 0 to disable.
+  -i [INTERACTIVE_PORT], --interactive [INTERACTIVE_PORT]
+                        Enables interactive mode. A port may be specified, otherwise the port defaults to 0.
+  --pre-start-environments [PRE_START_ENVIRONMENTS ...]
+                        Enables pre-start of environments corresponding to the MultiTest names passed. Defaults to no environment pre-started.
+  --trace-tests PATH    Enable the tracing tests feature. A JSON file containing file names and line numbers to be watched by the tracer must be specified.
+  --trace-tests-output PATH
+                        Specify output file for tests impacted by change in Testplan pattern format (see "--trace-tests"). Will be ignored if "--trace-tests" is not specified. Default to standard output.
+  --xfail-tests PATH    
+                        Read a list of testcase name patterns from a JSON files, and mark matching testcases as xfail.
+                        This feature works for MultiTest, GTest and CPPUnit.
+                        A typical input JSON looks like below:
+                        {
+                            "Fatal GTest:*:*": {
+                                "reason": "test known to crash",
+                                "strict": true
+                            },
+                            "Flaky GTest:SuiteName:CaseName": {
+                                "reason": "test not stable",
+                                "strict": false
+                            },
+                            "Fatal MultiTest:*:*": {
+                                "reason": "env does not start",
+                                "strict": true
+                            },
+                            "Flaky MultiTest:Suite Name:*": {
+                                "reason": "everything under that suite flaky",
+                                "strict": true
+                            }
+                        }
+                        
+                        "with each entry looks like: "
+                        '{"<Multitest>:<TestSuite>:<testcase>": '
+                        '{"reason": <value>, "strict": <value>} }',
+  --runtime-data PATH   Historical runtime data which will be used for Multitest auto-part and weight-based Task smart-scheduling with entries looks like: 
+                        {
+                            "<Multitest>": {
+                                "execution_time": 199.99,
+                                "setup_time": 39.99,
+                                "teardown_time": 39.99, // optional
+                            },
+                            ......
+                        }
+  -r, --resource-monitor
+                        Enables resource monitor
+  --skip-remaining {cases-on-failed,cases-on-error,suites-on-failed,suites-on-error,tests-on-failed,tests-on-error}
+                        Make Testplan break from the current execution flow and skip remaining iterations at certain level (choose one from all the options). "on-error" make this skip upon exception raised, and "on-failed" make this skip upon both exception raised and test failure. In other words, "on-failed" has higher precedence.
+                        Use "cases-on-failed"/"cases-on-error" to skip remaining testcases in the same testsuite when condition is met, execution will resume from the next testsuite.
+                        Use "suites-on-failed"/"suites-on-error" to skip remaining testsuites as well in the same Multitest when condition is met, execution will resume from the next Multitest/GTest etc.
+                        Use "tests-on-failed"/"tests-on-error" to skip remaining Multitests/GTests etc. as well (i.e. everything remaining) in the current Testplan when condition is met.
+                        To skip everything and stop executing all further tests use "tests-on-failed".
+
+Filtering:
+  --patterns TEST_FILTER [TEST_FILTER ...]
+                        Test filter, supports glob notation & multiple arguments.
+                        
+                        --patterns <Multitest Name>
+                        --patterns <Multitest Name 1> <Multitest Name 2>
+                        --patterns <Multitest Name 1> --patterns <Multitest Name 2>
+                        --patterns <Multitest Name>:<Suite Name>
+                        --patterns <Multitest Name>:<Suite Name>:<Testcase name>
+                        --patterns <Multitest Name>:*:<Testcase name>
+                        --patterns *:<Suite Name>:<Testcase name>
+  --patterns-file FILE  Test filter supplied in a file, with one pattern per line.
+                        
+                        --patterns-file <File>
+  --tags TEST_FILTER [TEST_FILTER ...]
+                        Test filter, runs tests that match ANY of the given tags.
+                        
+                        --tags <tag_name_1> --tags <tag_name 2>
+                        --tags <tag_name_1> <tag_category_1>=<tag_name_2>
+  --tags-all TEST_FILTER [TEST_FILTER ...]
+                        Test filter, runs tests that match ALL of the given tags.
+                        
+                        --tags-all <tag_name_1> --tags <tag_name 2>
+                        --tags-all <tag_name_1> <tag_category_1>=<tag_name_2>
+
+Ordering:
+  --shuffle {all,instances,suites,testcases} [{all,instances,suites,testcases} ...]
+                        Shuffle execution order
+  --shuffle-seed SEED   Seed shuffle with a specific value, useful to reproduce a particular order.
+
+Reporting:
+  --stdout-style STDOUT_STYLE
+                        (default: Style(passing='testcase', failing='assertion-detail'))
+                        "result-only" - Display only root level pass/fail status.
+                        "summary" - Display top level (e.g. multitest) pass/fail status .
+                        "extended-summary" - Display assertion details for failing tests, testcase level statuses for the rest.
+                        "detailed" - Display details of all tests & assertions.
+  --report-filter {E,F,I,P,S,U,X,A,B,C,...}
+                        Only include testcases with execution result Error (E), Failed (F), Incomplete (I), Passed (P), Skipped (S), Unstable (U), Unknown (X), XFail (A), XPass (B) and XPass-Strict (C) in Testplan report. Use lower-case characters to exclude certain testcases from the report. Use "PS" will select passed and skipped testcases only, and use "ps" will select all the testcases that are not passed and not skipped. Note using upper-case and lower-case letters together is not allowed due to potential ambiguity.
+  --omit-passed         Equivalent to "--report-filter=p", cannot be used with "--report-filter" together.
+  --omit-skipped        Equivalent to "--report-filter=s", cannot be used with "--report-filter" together.
+  --pdf PATH            Path for PDF report.
+  --json PATH           Path for JSON report.
+  --xml DIRECTORY       Directory path for XML reports.
+  --http URL            Web URL for posting report.
+  --report-dir PATH     Target directory for tag filtered report output.
+  --pdf-style PDF_STYLE
+                        (default: Style(passing='test', failing='test'))
+                        "result-only" - Display only root level pass/fail status.
+                        "summary" - Display top level (e.g. multitest) pass/fail status .
+                        "extended-summary" - Display assertion details for failing tests, testcase level statuses for the rest.
+                        "detailed" - Display details of all tests & assertions.
+  -v, --verbose         Enables verbose mode that will also set the stdout-style option to "detailed".
+  -d, --debug           Enables debug mode.
+  -b, --browse          Automatically opens report to browse. Must be specified with "--ui" to open it locally, or upload it to a web server with a customized exporter which has a `report_url`, or there will be nothing to open.
+  -u [UI_PORT], --ui [UI_PORT]
+                        Starts the web server for the Testplan UI. A port can be specified, otherwise defaults to None. A JSON report will be saved locally.
+  --report-tags REPORT_FILTER [REPORT_FILTER ...]
+                        Report filter, generates a separate report (PDF by default)
+                        that match ANY of the given tags.
+                        
+                        --report-tags <tag_name_1> --report-tags <tag_name 2>
+                        --report-tags <tag_name_1> <tag_category_1>=<tag_name_2>
+  --report-tags-all REPORT_FILTER [REPORT_FILTER ...]
+                        Report filter, generates a separate report (PDF by default)
+                        that match ALL of the given tags.
+                        
+                        --report-tags-all <tag_name_1> --report-tags-all <tag_name 2>
+                        --report-tags-all <tag_name_1> <tag_category_1>=<tag_name_2>
+  --file-log-level {USER_INFO,CRITICAL,ERROR,WARNING,INFO,DEBUG,NONE}
+                        Specifies log level for file logs. Set to None to disable file logging.
+  --label LABEL         Labels the test report with the given name, useful to categorize or classify similar reports (aka "run-id").
+  --driver-info         Display drivers setup / teardown timing and interconnection information in UI report.
+  --code                Collects file path, line number and code context of the assertions.
+
+============================== ERROR ==============================
+
+ambiguous option: --report could match --report-filter, --report-dir, --report-tags, --report-tags-all
+===================================================================

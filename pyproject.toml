@@ -1,0 +1,22 @@
+[project]
+name = "thanos"
+version = "0.1.0"
+description = "A test framework for orchestrating stage workflows"
+authors = [
+    {name = "donzeno23",email = "donzeno23@yahoo.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11.9"
+dependencies = [
+    "polars (>=1.32.0,<2.0.0)",
+    "click (>=8.2.2,<9.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "rich (>=14.1.0,<15.0.0)",
+    "testplan (>=25.3.0,<26.0.0)",
+    "marshmallow (==3.20.1)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
