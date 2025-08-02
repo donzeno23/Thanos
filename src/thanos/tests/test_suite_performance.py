@@ -6,6 +6,7 @@ from thanos.workflow import WorkflowRunner
 from thanos.stages.login import login_to_service
 from thanos.stages.user import create_user, check_user_profile
 from thanos.stages.cleanup import cleanup_data
+from thanos.helpers import report_workflow_results
 
 
 @testsuite
@@ -20,6 +21,7 @@ class PerformanceTestSuite(object):
         rprint(f"[bold cyan]Setting up Performance Test Suite: {self.name}[/bold cyan]")
         result.log(f"Setting up Performance Test Suite: {self.name}")
         # Here you can add any setup code if necessary
+        self.runner = WorkflowRunner()
 
     @testcase(
         name="WorkflowTest", 
@@ -28,7 +30,7 @@ class PerformanceTestSuite(object):
     )
     def test_my_workflow(self, env, result, rate, duration, threshold):
         # TODO: should the WorkflowRunner be initialized here, in setup or in the main test plan?
-        runner = WorkflowRunner()
+        ## runner = WorkflowRunner()
 
         # Define the stages and their dependencies
         stage_login = TestStage(
@@ -56,31 +58,19 @@ class PerformanceTestSuite(object):
         )
 
         # Add stages to the runner
-        runner.add_stage(stage_login)
-        runner.add_stage(stage_create)
-        runner.add_stage(stage_check)
-        runner.add_stage(stage_cleanup)
+        self.runner.add_stage(stage_login)
+        self.runner.add_stage(stage_create)
+        self.runner.add_stage(stage_check)
+        self.runner.add_stage(stage_cleanup)
 
         # Run the tests
-        runner.execute_workflow()
+        self.runner.execute_workflow()
         
-        # Enhanced final reporting
-        rprint("\n[bold cyan]📊 === FINAL RESULTS ===[/bold cyan]")
-        rprint(f"[bold green]🎆 Test run completed successfully![/bold green]")
-        
-        rprint("\n[bold yellow]📝 Final context:[/bold yellow]")
-        rprint(f"[dim]{runner.context}[/dim]")
-        
-        rprint("\n[bold magenta]📈 Stage results:[/bold magenta]")
-        for stage_name, stage in runner.stages.items():
-            status_icon = "✅" if stage.status == "PASSED" else "❌" if stage.status == "FAILED" else "⏭️"
-            status_color = "green" if stage.status == "PASSED" else "red" if stage.status == "FAILED" else "yellow"
-            rprint(f"  {status_icon} [cyan]{stage_name}[/cyan]: [{status_color}]{stage.status}[/{status_color}] [dim](Result: {stage.result})[/dim]")
-        
-        rprint("\n[bold cyan]========================[/bold cyan]\n")
+        # Generate enhanced final reporting
+        report_workflow_results(self.runner)
         result.log(f"Test '{self.name}' executed with rate={rate}, duration={duration}, threshold={threshold}") 
-        result.equal(runner.stages["check_user_profile"].status, "PASSED", description="Check user profile stage passed")
-        result.equal(runner.stages["cleanup_data"].status, "PASSED", description="Cleanup stage passed")
+        result.equal(self.runner.stages["check_user_profile"].status, "PASSED", description="Check user profile stage passed")
+        result.equal(self.runner.stages["cleanup_data"].status, "PASSED", description="Cleanup stage passed")
         result.log("Workflow test completed successfully.")
 
     def teardown(self, env, result):
