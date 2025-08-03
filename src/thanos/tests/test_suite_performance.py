@@ -18,6 +18,7 @@ class PerformanceTestSuite(object):
         self.name = name
         self.tests = []
         self.failures = []
+        self.run_ids = []
 
     def setup(self, env, result):
         rprint(f"[bold cyan]Setting up Performance Test Suite: {self.name}[/bold cyan]")
@@ -73,26 +74,36 @@ class PerformanceTestSuite(object):
         self.runner.add_stage(stage_check)
         self.runner.add_stage(stage_cleanup)
 
+        # Simulate failure condition before running workflow
+        if rate == 4:
+            # Modify the create_user stage to fail
+            def failing_create_user(context):
+                rprint(f"[red]👤 Simulating failure in create user action[/red]")
+                raise Exception("Simulated failure for rate=4")
+            
+            stage_create.action = failing_create_user
+        
         # Run the tests and store the run_id
         run_id = self.runner.execute_workflow()
-
-        # After the test run, the result is already in the cache.
-        # We can now simulate uploading it to a database.
-        # NOTE: moved this to teardown to ensure it runs after all tests
-        ## self.runner.upload_to_db()
         
         # Generate enhanced final reporting
         report_workflow_results(self.runner)
         result.log(f"Test '{self.name}' executed with rate={rate}, duration={duration}, threshold={threshold}") 
-        result.equal(self.runner.stages["check_user_profile"].status, "PASSED", description="Check user profile stage passed")
-        result.equal(self.runner.stages["cleanup_data"].status, "PASSED", description="Cleanup stage passed")
-        result.log("Workflow test completed successfully.")
+        
+        # Check results based on expected behavior
+        if rate == 4:
+            result.fail("Expected failure for rate=4")
+            # For rate=4, we expect create_user to fail, so dependent stages should be skipped
+            result.equal(self.runner.stages["create_user"].status, "FAILED", description="Create user stage should fail for rate=4")
+        else:
+            result.equal(self.runner.stages["check_user_profile"].status, "PASSED", description="Check user profile stage passed")
+            result.equal(self.runner.stages["cleanup_data"].status, "PASSED", description="Cleanup stage passed")
+            result.log("Workflow test completed successfully.")
 
-        # You can also retrieve a specific run result from the cache
+        # Retrieve and display the cached result
         retrieved_result = self.test_cache.get_run_result(run_id)
         if retrieved_result:
             rprint(f"\nRetrieved result for run '{retrieved_result.run_id}': Overall Status = {retrieved_result.overall_status}")
-            # You could also iterate through retrieved_result.stage_results here
         else:
             rprint(f"\nNo results found for run ID: {run_id}")
 

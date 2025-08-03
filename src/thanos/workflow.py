@@ -95,8 +95,20 @@ class WorkflowRunner:
                         # Capture the result of the failed stage
                         stage.status = "FAILED"
                         stage.result = self.stages[stage_name].result
-                        self._report_summary()
-                        return
+                        
+                        # Record the failed stage result
+                        end_time = datetime.now()
+                        duration = (end_time - start_time).total_seconds() * 1000
+                        stage_result = StageResult(
+                            name=stage.name,
+                            status="FAILED",
+                            result_data=stage.result,
+                            start_time=start_time,
+                            end_time=end_time,
+                            duration_ms=duration
+                        )
+                        test_run_result.stage_results.append(stage_result)
+                        break
                     
                     # Record the result of the executed stage
                     end_time = datetime.now()
@@ -113,6 +125,7 @@ class WorkflowRunner:
                 
                     # If the stage failed, we break the loop and prevent further execution
                     if stage.status == "FAILED":
+                        overall_status = "FAILED"
                         break
             
         except Exception as e:
@@ -140,6 +153,13 @@ class WorkflowRunner:
         rprint("[bold magenta]========================[/bold magenta]")
 
 
+    def update_run_status(self, run_id: str, status: str):
+        """Updates the overall status of a test run in the cache."""
+        run_result = self.cache.get_run_result(run_id)
+        if run_result:
+            run_result.overall_status = status
+            rprint(f"[yellow]⚠️  Updated run {run_id} status to: {status}[/yellow]")
+    
     def upload_to_db(self):
         """Simulates uploading all cached results to a database."""
         print("\n--- Uploading Results to DB ---")
