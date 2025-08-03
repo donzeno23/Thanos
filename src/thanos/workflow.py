@@ -20,15 +20,24 @@ class WorkflowRunner:
     def add_stage(self, stage: TestStage):
         """Adds a stage to the runner and builds the dependency graph."""
         if stage.name in self.stages:
-            raise ValueError(f"Stage with name '{stage.name}' already exists.")
+            rprint(f"[yellow]⚠️  Stage '{stage.name}' already exists. Replacing with new instance.[/yellow]")
         
         self.stages[stage.name] = stage
         self.dag[stage.name] = stage.dependencies
+    
+    def clear_stages(self):
+        """Clears all stages and resets the workflow for a new test run."""
+        self.stages.clear()
+        self.dag.clear()
+        self.context.clear()
 
     def execute_workflow(self):
         """
         Executes all test stages in a topologically sorted order.
         """
+        # Reset context for each workflow execution
+        self.context.clear()
+        
         rprint("\n[bold cyan]🚀 === THANOS TEST FRAMEWORK ===[/bold cyan]")
         rprint("[bold yellow]--- Starting Test Run ---[/bold yellow]\n")
 

@@ -39,9 +39,9 @@ class PerformanceTestSuite(object):
         parameters={"rate": (2,4), "duration": (3,5), "threshold": (6, 20)},
     )
     def test_my_workflow(self, env, result, rate, duration, threshold):
-        # TODO: should the WorkflowRunner be initialized here, in setup or in the main test plan?
-        ## runner = WorkflowRunner()
-
+        # Clear any existing stages from previous parameterized test runs
+        self.runner.clear_stages()
+        
         # Define the stages and their dependencies
         stage_login = TestStage(
             name="login_to_service",
