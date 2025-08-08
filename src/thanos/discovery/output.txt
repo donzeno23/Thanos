@@ -1,0 +1,850 @@
+Stopping TestRunnerIHandler[0e2b1ced-893f-4c7c-91f3-2f7b303aa989] for Testplan[StageWorkflow Test Plan]
+Aborted TestRunnerHTTPHandler[e6ede0d7-35b0-4532-a0f7-52f30b235623]
+Aborting TestRunnerIHandler[0e2b1ced-893f-4c7c-91f3-2f7b303aa989]
+Running MultiTest[StageWorkflow Tests]
+Running MultiTest[Performance Tests]
+Aborted TestRunnerIHandler[0e2b1ced-893f-4c7c-91f3-2f7b303aa989]
+Aborting MultiTest[StageWorkflow Tests]
+Aborted MultiTest[StageWorkflow Tests]
+Aborting MultiTest[Performance Tests]
+Aborted MultiTest[Performance Tests]
+Aborting LocalRunner[local_runner]
+Discard pending tasks of LocalRunner[local_runner].
+Discarding Test[StageWorkflow Tests] due to LocalRunner[local_runner] aborted.
+Discarding Test[Performance Tests] due to LocalRunner[local_runner] aborted.
+Aborted LocalRunner[local_runner]
+Aborting Environments[environments]
+Aborted Environments[environments]
+Aborting Testplan[StageWorkflow Test Plan]
+Aborted Testplan[StageWorkflow Test Plan]
+Aborting Testplan[bbf64ac3-1714-4819-8d90-a4b953ecd580]
+Aborted Testplan[bbf64ac3-1714-4819-8d90-a4b953ecd580]
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python
+Python 3.11.9 (main, Jul 21 2024, 00:17:18) [Clang 12.0.5 (clang-1205.0.22.11)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> directories = ["src/thanos/tests", "src/thanos/app/backend"]
+>>> from thanos import discovery
+>>> for directory in directories:
+...     suites = discovery.discover(directory)
+...     print(f"{directory}: {len(suites)} suites")
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+AttributeError: module 'thanos.discovery' has no attribute 'discover'. Did you mean: 'discovery'?
+>>> from thanos.discovery import discovery
+>>> for directory in directories:
+...     suites = discovery.discover(directory)
+...     print(f"{directory}: {len(suites)} suites")
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+AttributeError: module 'thanos.discovery.discovery' has no attribute 'discover'
+>>> from thanos.discovery.discovery import TestSuiteDiscovery
+>>> discovery = TestSuiteDiscovery()
+>>> for directory in directories:
+...     suites = discovery.discover(directory)
+...     print(f"{directory}: {len(suites)} suites")
+... 
+src/thanos/tests: 2 suites
+src/thanos/app/backend: 4 suites
+>>> testsuite_classes = discovery.discover_by_decorator("src/thanos", "testsuite")
+>>> testsuite_classes
+[TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_two/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_one/test_suite_one.py'), class_name='PerfTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_three/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_two.py'), class_name='TestSuiteTwo', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_one.py'), class_name='SuiteOne', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_two.py'), class_name='MyIdea', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_one.py'), class_name='MyWorkflowTest', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_performance.py'), class_name='PerformanceTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_basic.py'), class_name='BasicSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'basic_multiply', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite'])]
+>>> testsuite_classes = discovery.discover_by_decorator("src/thanos", "testsuite")
+>>> testsuite_classes
+[TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_two/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_one/test_suite_one.py'), class_name='PerfTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_three/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_two.py'), class_name='TestSuiteTwo', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_one.py'), class_name='SuiteOne', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_two.py'), class_name='MyIdea', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_one.py'), class_name='MyWorkflowTest', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_performance.py'), class_name='PerformanceTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_basic.py'), class_name='BasicSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'basic_multiply', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite'])]
+>>> for directory in directories:
+...     suites = discovery.discover(directory)
+...     print(f"{directory}: {len(suites)} suites")
+... 
+src/thanos/tests: 2 suites
+src/thanos/app/backend: 4 suites
+>>> 
+[13]+  Stopped                 python
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python regex_search_demo.py 
+Thanos Advanced Regex Search Demo
+==================================================
+
+Searching in: src/thanos
+------------------------------
+
+1. Backend test files:
+   Pattern: app/.*/backend/.*test.*\.py$
+   Found: 0 suites
+
+2. Performance test suites:
+   Pattern: .*/performance/.*\.py$
+   Found: 0 suites
+
+3. Complex nested structure:
+   Pattern: app/*/test_suite_.*\.py$
+   Found: 0 suites
+
+4. Case-insensitive search:
+   Pattern: .*TEST.*\.py$ (case-insensitive)
+   Found: 9 suites
+   - One in src/thanos/app/frontend/app_two/test_suite_one.py
+   - PerfTestSuite in src/thanos/app/frontend/app_one/test_suite_one.py
+   - One in src/thanos/app/frontend/app_three/test_suite_one.py
+   - TestSuiteTwo in src/thanos/app/backend/bapp_one/test_suite_two.py
+   - SuiteOne in src/thanos/app/backend/bapp_one/test_suite_one.py
+   - MyIdea in src/thanos/app/backend/bapp_two/test_suite_two.py
+   - MyWorkflowTest in src/thanos/app/backend/bapp_two/test_suite_one.py
+   - PerformanceTestSuite in src/thanos/tests/test_suite_performance.py
+   - BasicSuite in src/thanos/tests/test_suite_basic.py
+
+5. Direct RegexFileDiscoverer usage:
+   Pattern: .*suite.*\.py$
+   Found: 9 files
+   - src/thanos/app/frontend/app_two/test_suite_one.py
+   - src/thanos/app/frontend/app_one/test_suite_one.py
+   - src/thanos/app/frontend/app_three/test_suite_one.py
+   - src/thanos/app/backend/bapp_one/test_suite_two.py
+   - src/thanos/app/backend/bapp_one/test_suite_one.py
+   - src/thanos/app/backend/bapp_two/test_suite_two.py
+   - src/thanos/app/backend/bapp_two/test_suite_one.py
+   - src/thanos/tests/test_suite_performance.py
+   - src/thanos/tests/test_suite_basic.py
+
+Summary:
+   Total patterns tested: 5
+   Backend tests: 0
+   Performance tests: 0
+   Complex pattern matches: 0
+   Case-insensitive matches: 9
+   Direct discoverer files: 9
+
+Demo completed!
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python regex_search_demo.py 
+Thanos Advanced Regex Search Demo
+==================================================
+
+Searching in: src/thanos
+------------------------------
+
+1. Backend test files:
+   Pattern: app/.*/backend/.*test.*\.py$
+   Found: 0 suites
+
+2. Performance test suites:
+   Pattern: .*/performance/.*\.py$
+   Found: 0 suites
+
+3. Complex nested structure:
+   Pattern: app/*/test_suite_.*\.py$
+   Found: 0 suites
+
+4. Case-insensitive search:
+   Pattern: .*TEST.*\.py$ (case-insensitive)
+   Found: 8 suites
+   - PerfTestSuite in src/thanos/app/frontend/app_one/test_suite_one.py
+   - One in src/thanos/app/frontend/app_three/test_suite_one.py
+   - TestSuiteTwo in src/thanos/app/backend/bapp_one/test_suite_two.py
+   - SuiteOne in src/thanos/app/backend/bapp_one/test_suite_one.py
+   - MyIdea in src/thanos/app/backend/bapp_two/test_suite_two.py
+   - MyWorkflowTest in src/thanos/app/backend/bapp_two/test_suite_one.py
+   - PerformanceTestSuite in src/thanos/tests/test_suite_performance.py
+   - BasicSuite in src/thanos/tests/test_suite_basic.py
+
+5. Direct RegexFileDiscoverer usage:
+   Pattern: .*suite.*\.py$
+   Found: 9 files
+   - src/thanos/app/frontend/app_two/test_suite_one.py
+   - src/thanos/app/frontend/app_one/test_suite_one.py
+   - src/thanos/app/frontend/app_three/test_suite_one.py
+   - src/thanos/app/backend/bapp_one/test_suite_two.py
+   - src/thanos/app/backend/bapp_one/test_suite_one.py
+   - src/thanos/app/backend/bapp_two/test_suite_two.py
+   - src/thanos/app/backend/bapp_two/test_suite_one.py
+   - src/thanos/tests/test_suite_performance.py
+   - src/thanos/tests/test_suite_basic.py
+
+Summary:
+   Total patterns tested: 5
+   Backend tests: 0
+   Performance tests: 0
+   Complex pattern matches: 0
+   Case-insensitive matches: 8
+   Direct discoverer files: 9
+
+Demo completed!
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python regex_search_demo.py 
+Thanos Advanced Regex Search Demo
+==================================================
+
+Searching in: src/thanos
+------------------------------
+
+1. Backend test files:
+   Pattern: app/.*/backend/.*test.*\.py$
+   Found: 0 suites
+
+2. Performance test suites:
+   Pattern: .*/performance/.*\.py$
+   Found: 0 suites
+
+3. Complex nested structure:
+   Pattern: app/*/test_suite_.*\.py$
+   Found: 0 suites
+
+4. Case-insensitive search:
+   Pattern: .*TEST.*\.py$ (case-insensitive)
+   Found: 9 suites
+   - One in src/thanos/app/frontend/app_two/test_suite_one.py
+   - PerfTestSuite in src/thanos/app/frontend/app_one/test_suite_one.py
+   - One in src/thanos/app/frontend/app_three/test_suite_one.py
+   - TestSuiteTwo in src/thanos/app/backend/bapp_one/test_suite_two.py
+   - SuiteOne in src/thanos/app/backend/bapp_one/test_suite_one.py
+   - MyIdea in src/thanos/app/backend/bapp_two/test_suite_two.py
+   - MyWorkflowTest in src/thanos/app/backend/bapp_two/test_suite_one.py
+   - PerformanceTestSuite in src/thanos/tests/test_suite_performance.py
+   - BasicSuite in src/thanos/tests/test_suite_basic.py
+
+5. Direct RegexFileDiscoverer usage:
+   Pattern: .*suite.*\.py$
+   Found: 9 files
+   - src/thanos/app/frontend/app_two/test_suite_one.py
+   - src/thanos/app/frontend/app_one/test_suite_one.py
+   - src/thanos/app/frontend/app_three/test_suite_one.py
+   - src/thanos/app/backend/bapp_one/test_suite_two.py
+   - src/thanos/app/backend/bapp_one/test_suite_one.py
+   - src/thanos/app/backend/bapp_two/test_suite_two.py
+   - src/thanos/app/backend/bapp_two/test_suite_one.py
+   - src/thanos/tests/test_suite_performance.py
+   - src/thanos/tests/test_suite_basic.py
+
+Summary:
+   Total patterns tested: 5
+   Backend tests: 0
+   Performance tests: 0
+   Complex pattern matches: 0
+   Case-insensitive matches: 9
+   Direct discoverer files: 9
+
+Demo completed!
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Thanos Test Suite Discovery - Usage Examples
+==================================================
+=== Example 1: Basic AST Parser ===
+Found suite: BasicSuite
+  Decorator: testsuite
+  Methods: ['__init__', 'setup', 'basic_multiply', 'teardown']
+  File: src/thanos/tests/test_suite_basic.py
+
+=== Example 2: Custom Decorators ===
+
+File: src/thanos/tests/test_suite_basic.py
+  Suite: BasicSuite (@testsuite)
+
+File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Suite: SuiteOne (@testsuite)
+
+=== Example 3: File Discovery ===
+Found 26 Python files
+Found 9 test suite files:
+  src/thanos/app/frontend/app_two/test_suite_one.py
+  src/thanos/app/frontend/app_one/test_suite_one.py
+  src/thanos/app/frontend/app_three/test_suite_one.py
+  src/thanos/app/backend/bapp_one/test_suite_two.py
+  src/thanos/app/backend/bapp_one/test_suite_one.py
+  src/thanos/app/backend/bapp_two/test_suite_two.py
+  src/thanos/app/backend/bapp_two/test_suite_one.py
+  src/thanos/tests/test_suite_performance.py
+  src/thanos/tests/test_suite_basic.py
+
+=== Example 4: Filtered Discovery ===
+Traceback (most recent call last):
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 229, in <module>
+    example_filtered_discovery()
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 85, in example_filtered_discovery
+    print(f"Found {len(files)} test-related files:")
+                   ^^^^^^^^^^
+TypeError: object of type 'NoneType' has no len()
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Thanos Test Suite Discovery - Usage Examples
+==================================================
+=== Example 1: Basic AST Parser ===
+Found suite: BasicSuite
+  Decorator: testsuite
+  Methods: ['__init__', 'setup', 'basic_multiply', 'teardown']
+  File: src/thanos/tests/test_suite_basic.py
+
+=== Example 2: Custom Decorators ===
+
+File: src/thanos/tests/test_suite_basic.py
+  Suite: BasicSuite (@testsuite)
+
+File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Suite: SuiteOne (@testsuite)
+
+=== Example 3: File Discovery ===
+Found 26 Python files
+Found 9 test suite files:
+  src/thanos/app/frontend/app_two/test_suite_one.py
+  src/thanos/app/frontend/app_one/test_suite_one.py
+  src/thanos/app/frontend/app_three/test_suite_one.py
+  src/thanos/app/backend/bapp_one/test_suite_two.py
+  src/thanos/app/backend/bapp_one/test_suite_one.py
+  src/thanos/app/backend/bapp_two/test_suite_two.py
+  src/thanos/app/backend/bapp_two/test_suite_one.py
+  src/thanos/tests/test_suite_performance.py
+  src/thanos/tests/test_suite_basic.py
+
+=== Example 4: Filtered Discovery ===
+No test files found.
+
+=== Example 5: Filters ===
+Suites with @testsuite: 1
+Suites with 1+ methods: 1
+Suites matching both filters: 1
+
+=== Example 6: Main Discovery Service ===
+Discovered 9 test suites
+Summary: {'total': 9, 'files': 9, 'decorators': {'testsuite': 9}, 'avg_methods_per_suite': 4.0}
+
+Suite: One
+  File: src/thanos/app/frontend/app_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerfTestSuite
+  File: src/thanos/app/frontend/app_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: One
+  File: src/thanos/app/frontend/app_three/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: TestSuiteTwo
+  File: src/thanos/app/backend/bapp_one/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: SuiteOne
+  File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyIdea
+  File: src/thanos/app/backend/bapp_two/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyWorkflowTest
+  File: src/thanos/app/backend/bapp_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerformanceTestSuite
+  File: src/thanos/tests/test_suite_performance.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: BasicSuite
+  File: src/thanos/tests/test_suite_basic.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'basic_multiply', 'teardown']
+
+=== Example 7: Custom Discovery ===
+Traceback (most recent call last):
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 235, in <module>
+    example_custom_discovery()
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 168, in example_custom_discovery
+    suites = discovery.discover("src/thanos/app")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/racheldaloia/sandbox/Thanos/src/thanos/discovery/discovery.py", line 34, in discover
+    for file_path in files:
+TypeError: 'NoneType' object is not iterable
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Thanos Test Suite Discovery - Usage Examples
+==================================================
+=== Example 1: Basic AST Parser ===
+Found suite: BasicSuite
+  Decorator: testsuite
+  Methods: ['__init__', 'setup', 'basic_multiply', 'teardown']
+  File: src/thanos/tests/test_suite_basic.py
+
+=== Example 2: Custom Decorators ===
+
+File: src/thanos/tests/test_suite_basic.py
+  Suite: BasicSuite (@testsuite)
+
+File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Suite: SuiteOne (@testsuite)
+
+=== Example 3: File Discovery ===
+Found 26 Python files
+Found 9 test suite files:
+  src/thanos/app/frontend/app_two/test_suite_one.py
+  src/thanos/app/frontend/app_one/test_suite_one.py
+  src/thanos/app/frontend/app_three/test_suite_one.py
+  src/thanos/app/backend/bapp_one/test_suite_two.py
+  src/thanos/app/backend/bapp_one/test_suite_one.py
+  src/thanos/app/backend/bapp_two/test_suite_two.py
+  src/thanos/app/backend/bapp_two/test_suite_one.py
+  src/thanos/tests/test_suite_performance.py
+  src/thanos/tests/test_suite_basic.py
+
+=== Example 4: Filtered Discovery ===
+No test files found.
+
+=== Example 5: Filters ===
+Suites with @testsuite: 1
+Suites with 1+ methods: 1
+Suites matching both filters: 1
+
+=== Example 6: Main Discovery Service ===
+Discovered 9 test suites
+Summary: {'total': 9, 'files': 9, 'decorators': {'testsuite': 9}, 'avg_methods_per_suite': 4.0}
+
+Suite: One
+  File: src/thanos/app/frontend/app_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerfTestSuite
+  File: src/thanos/app/frontend/app_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: One
+  File: src/thanos/app/frontend/app_three/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: TestSuiteTwo
+  File: src/thanos/app/backend/bapp_one/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: SuiteOne
+  File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyIdea
+  File: src/thanos/app/backend/bapp_two/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyWorkflowTest
+  File: src/thanos/app/backend/bapp_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerformanceTestSuite
+  File: src/thanos/tests/test_suite_performance.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: BasicSuite
+  File: src/thanos/tests/test_suite_basic.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'basic_multiply', 'teardown']
+
+=== Example 7: Custom Discovery ===
+Custom discovery found 0 suites in app directory
+
+=== Example 8: Decorator-Specific Discovery ===
+Traceback (most recent call last):
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 236, in <module>
+    example_decorator_specific()
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 183, in example_decorator_specific
+    print(f"Found {len(testsuite_classes)} @testsuite classes")
+                   ^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object of type 'NoneType' has no len()
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Traceback (most recent call last):
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 10, in <module>
+    from thanos.discovery.parsers import ASTTestSuiteParser
+  File "/Users/racheldaloia/sandbox/Thanos/src/thanos/discovery/__init__.py", line 3, in <module>
+    from .discovery import TestSuiteDiscovery
+  File "/Users/racheldaloia/sandbox/Thanos/src/thanos/discovery/discovery.py", line 32
+    print(f"No files found matching pattern '{pattern}' in directory '{directory}'"))
+                                                                                    ^
+SyntaxError: unmatched ')'
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Thanos Test Suite Discovery - Usage Examples
+==================================================
+=== Example 1: Basic AST Parser ===
+Found suite: BasicSuite
+  Decorator: testsuite
+  Methods: ['__init__', 'setup', 'basic_multiply', 'teardown']
+  File: src/thanos/tests/test_suite_basic.py
+
+=== Example 2: Custom Decorators ===
+
+File: src/thanos/tests/test_suite_basic.py
+  Suite: BasicSuite (@testsuite)
+
+File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Suite: SuiteOne (@testsuite)
+
+=== Example 3: File Discovery ===
+Found 26 Python files
+Found 9 test suite files:
+  src/thanos/app/frontend/app_two/test_suite_one.py
+  src/thanos/app/frontend/app_one/test_suite_one.py
+  src/thanos/app/frontend/app_three/test_suite_one.py
+  src/thanos/app/backend/bapp_one/test_suite_two.py
+  src/thanos/app/backend/bapp_one/test_suite_one.py
+  src/thanos/app/backend/bapp_two/test_suite_two.py
+  src/thanos/app/backend/bapp_two/test_suite_one.py
+  src/thanos/tests/test_suite_performance.py
+  src/thanos/tests/test_suite_basic.py
+
+=== Example 4: Filtered Discovery ===
+No test files found.
+
+=== Example 5: Filters ===
+Suites with @testsuite: 1
+Suites with 1+ methods: 1
+Suites matching both filters: 1
+
+=== Example 6: Main Discovery Service ===
+Discovered 9 test suites
+Summary: {'total': 9, 'files': 9, 'decorators': {'testsuite': 9}, 'avg_methods_per_suite': 4.0}
+
+Suite: One
+  File: src/thanos/app/frontend/app_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerfTestSuite
+  File: src/thanos/app/frontend/app_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: One
+  File: src/thanos/app/frontend/app_three/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: TestSuiteTwo
+  File: src/thanos/app/backend/bapp_one/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: SuiteOne
+  File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyIdea
+  File: src/thanos/app/backend/bapp_two/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyWorkflowTest
+  File: src/thanos/app/backend/bapp_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerformanceTestSuite
+  File: src/thanos/tests/test_suite_performance.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: BasicSuite
+  File: src/thanos/tests/test_suite_basic.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'basic_multiply', 'teardown']
+
+=== Example 7: Custom Discovery ===
+No files found matching pattern '*.py' in directory 'src/thanos/app' 
+Custom discovery found 0 suites in app directory
+
+=== Example 8: Decorator-Specific Discovery ===
+Traceback (most recent call last):
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 236, in <module>
+    example_decorator_specific()
+  File "/Users/racheldaloia/sandbox/Thanos/usage_examples.py", line 183, in example_decorator_specific
+    print(f"Found {len(testsuite_classes)} @testsuite classes")
+                   ^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object of type 'NoneType' has no len()
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python usage_examples.py 
+Thanos Test Suite Discovery - Usage Examples
+==================================================
+=== Example 1: Basic AST Parser ===
+Found suite: BasicSuite
+  Decorator: testsuite
+  Methods: ['__init__', 'setup', 'basic_multiply', 'teardown']
+  File: src/thanos/tests/test_suite_basic.py
+
+=== Example 2: Custom Decorators ===
+
+File: src/thanos/tests/test_suite_basic.py
+  Suite: BasicSuite (@testsuite)
+
+File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Suite: SuiteOne (@testsuite)
+
+=== Example 3: File Discovery ===
+Found 26 Python files
+Found 9 test suite files:
+  src/thanos/app/frontend/app_two/test_suite_one.py
+  src/thanos/app/frontend/app_one/test_suite_one.py
+  src/thanos/app/frontend/app_three/test_suite_one.py
+  src/thanos/app/backend/bapp_one/test_suite_two.py
+  src/thanos/app/backend/bapp_one/test_suite_one.py
+  src/thanos/app/backend/bapp_two/test_suite_two.py
+  src/thanos/app/backend/bapp_two/test_suite_one.py
+  src/thanos/tests/test_suite_performance.py
+  src/thanos/tests/test_suite_basic.py
+
+=== Example 4: Filtered Discovery ===
+No test files found.
+
+=== Example 5: Filters ===
+Suites with @testsuite: 1
+Suites with 1+ methods: 1
+Suites matching both filters: 1
+
+=== Example 6: Main Discovery Service ===
+Discovered 9 test suites
+Summary: {'total': 9, 'files': 9, 'decorators': {'testsuite': 9}, 'avg_methods_per_suite': 4.0}
+
+Suite: One
+  File: src/thanos/app/frontend/app_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerfTestSuite
+  File: src/thanos/app/frontend/app_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: One
+  File: src/thanos/app/frontend/app_three/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: TestSuiteTwo
+  File: src/thanos/app/backend/bapp_one/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: SuiteOne
+  File: src/thanos/app/backend/bapp_one/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyIdea
+  File: src/thanos/app/backend/bapp_two/test_suite_two.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: MyWorkflowTest
+  File: src/thanos/app/backend/bapp_two/test_suite_one.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: PerformanceTestSuite
+  File: src/thanos/tests/test_suite_performance.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'test_my_workflow', 'teardown']
+
+Suite: BasicSuite
+  File: src/thanos/tests/test_suite_basic.py
+  Decorator: @testsuite
+  Methods: 4 - ['__init__', 'setup', 'basic_multiply', 'teardown']
+
+=== Example 7: Custom Discovery ===
+No files found matching pattern '*.py' in directory 'src/thanos/app' 
+Custom discovery found 0 suites in app directory
+
+=== Example 8: Decorator-Specific Discovery ===
+No @testsuite classes found.
+
+=== Example 9: Directory Scanning ===
+
+src/thanos/tests: 2 suites
+  PerformanceTestSuite (4 methods)
+  BasicSuite (4 methods)
+
+src/thanos/app/backend: 4 suites
+  TestSuiteTwo (4 methods)
+  SuiteOne (4 methods)
+  MyIdea (4 methods)
+  MyWorkflowTest (4 methods)
+
+src/thanos/app/frontend: 3 suites
+  One (4 methods)
+  PerfTestSuite (4 methods)
+  One (4 methods)
+
+=== Example 10: Pattern Matching ===
+
+Pattern '*test*.py': 9 suites
+
+Pattern '*suite*.py': 9 suites
+
+Pattern 'test_*.py': 9 suites
+
+==================================================
+All examples completed!
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ 
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ history | grep poetry
+  502  poetry
+  513  pipx install poetry
+  514  pip install poetry
+  515  pip3 install poetry
+  524  /Users/racheldaloia/sandbox/.venv/bin/python -m pip install poetry
+  526  pipx install poetry
+  532  poetry init
+  534  poetry add rprint
+  562  poetry add rich
+  563  poetry remove rprint
+  569  poetry install testplan
+  570  poetry add testplan
+  601  poetry update marshmallow==3.20.1
+  602  poetry add marshmallow==3.20.1
+  633  history | grep poetry
+(.venv) Rachels-MacBook-Pro:thanos racheldaloia$ python
+Python 3.11.9 (main, Jul 21 2024, 00:17:18) [Clang 12.0.5 (clang-1205.0.22.11)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from thanos.discovery.discovery import TestSuiteDiscovery
+>>> discovery = TestSuiteDiscovery()
+>>> suites = discovery.discover("src/thanos")
+>>> suites
+[TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_two/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_one/test_suite_one.py'), class_name='PerfTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_three/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_two.py'), class_name='TestSuiteTwo', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_one.py'), class_name='SuiteOne', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_two.py'), class_name='MyIdea', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_one.py'), class_name='MyWorkflowTest', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_performance.py'), class_name='PerformanceTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/tests/test_suite_basic.py'), class_name='BasicSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'basic_multiply', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite'])]
+>>> for suite in suites:
+...     print(f"{suite.class_name}: {len(suite.methods)} methods")
+... 
+One: 4 methods
+PerfTestSuite: 4 methods
+One: 4 methods
+TestSuiteTwo: 4 methods
+SuiteOne: 4 methods
+MyIdea: 4 methods
+MyWorkflowTest: 4 methods
+PerformanceTestSuite: 4 methods
+BasicSuite: 4 methods
+>>> from thanos.discovery.parsers import ASTTestSuiteParser
+>>> parser = ASTTestSuiteParser(target_decorators={'testsuite', 'performance_suite'})
+>>> suites = parser.parse(Path("src"))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'Path' is not defined
+>>> from path import Path
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'path'
+>>> from pathlib import Path
+>>> suites = parser.parse(Path("src"))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Users/racheldaloia/sandbox/Thanos/src/thanos/discovery/parsers.py", line 19, in parse
+    with open(file_path, 'r', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: 'src'
+>>> suites = parser.parse(Path("src/*.py"))
+>>> suites
+[]
+>>> suites = parser.parse(Path("src/*.py"))
+>>> suites
+[]
+>>> from thanos.discovery.filters import DecoratorFilter, MethodCountFilter
+>>> 
+>>> decorator_filter = DecoratorFilter({'testsuite'})
+>>> if decorator_filter.matches(suite_info):
+...     print("Suite has @testsuite decorator")
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'suite_info' is not defined
+>>> filters = [
+...         DecoratorFilter({'testsuite'}),
+...         MethodCountFilter(min_methods=1)
+...     ]
+>>> 
+>>> discovery = TestSuiteDiscovery(
+...         parser=parser,
+...         discoverer=discoverer,
+...         filters=filters
+...     )
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+NameError: name 'discoverer' is not defined. Did you mean: 'discovery'?
+>>> discoverer = FilteredFileDiscoverer(
+...         extensions={'.py'},
+...         exclude_patterns={'__init__.py', '__pycache__'}
+...     )
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'FilteredFileDiscoverer' is not defined
+>>> from pathlib import Path
+>>> from thanos.discovery.parsers import ASTTestSuiteParser
+>>> from thanos.discovery.discoverers import GlobFileDiscoverer, FilteredFileDiscoverer
+>>> from thanos.discovery.filters import DecoratorFilter, MethodCountFilter, CompositeFilter
+>>> from thanos.discovery.discovery import TestSuiteDiscovery
+>>> discoverer = FilteredFileDiscoverer(
+...         extensions={'.py'},
+...         exclude_patterns={'__init__.py', '__pycache__'}
+...     )
+>>> suites = discovery.discover("src/thanos/app")
+    print(f"Custom discovery found {len(suites)} su>>>     print(f"Custom discovery found {len(suites)} su
+  File "<stdin>", line 1
+    print(f"Custom discovery found {len(suites)} su
+IndentationError: unexpected indent
+>>> suites = discovery.discover("src/thanos/app")
+>>> suites
+[TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_two/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_one/test_suite_one.py'), class_name='PerfTestSuite', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/frontend/app_three/test_suite_one.py'), class_name='One', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_two.py'), class_name='TestSuiteTwo', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_one/test_suite_one.py'), class_name='SuiteOne', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_two.py'), class_name='MyIdea', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results']), TestSuiteInfo(file_path=PosixPath('src/thanos/app/backend/bapp_two/test_suite_one.py'), class_name='MyWorkflowTest', decorator_name='testsuite', methods=['__init__', 'setup', 'test_my_workflow', 'teardown'], imports=['rich.print', 'testplan.testing.multitest.testcase', 'testplan.testing.multitest.testsuite', 'testplan.common.utils.helper', 'thanos.stage.TestStage', 'thanos.workflow.WorkflowRunner', 'thanos.cache.TestCache', 'thanos.stages.login.login_to_service', 'thanos.stages.user.create_user', 'thanos.stages.user.check_user_profile', 'thanos.stages.cleanup.cleanup_data', 'thanos.helpers.report_workflow_results'])]
+>>> print(f"Custom discovery found {len(suites)} suites in app directory")
+Custom discovery found 7 suites in app directory
+>>> for suite in suites:
+...         print(f"  {suite.class_name} in {suite.file_path.name}")
+... 
+  One in test_suite_one.py
+  PerfTestSuite in test_suite_one.py
+  One in test_suite_one.py
+  TestSuiteTwo in test_suite_two.py
+  SuiteOne in test_suite_one.py
+  MyIdea in test_suite_two.py
+  MyWorkflowTest in test_suite_one.py
+>>> 
+>>> regex_discoverer = RegexFileDiscoverer(case_sensitive=True)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'RegexFileDiscoverer' is not defined. Did you mean: 'GlobFileDiscoverer'?
+>>> from thanos.discovery.discovery import TestSuiteDiscovery
+>>> from discoverers import RegexFileDiscoverer
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'discoverers'
+>>> import RegexFileDiscoverer
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'RegexFileDiscoverer'
+>>> from thanos.discovery import RegexFileDiscoverer
+>>> regex_discoverer = RegexFileDiscoverer(case_sensitive=True)
+>>> discovery = TestSuiteDiscovery(discoverer=regex_discoverer)
+>>> 
+>>> # Complex pattern examples
+>>> patterns = [
+...     "ets/*/project*/py3/test/*/performance/*.py",  # Specific nested structure
+...     "app/(backend|frontend)/.*/test_.*\.py$",       # Backend or frontend tests
+...     "tests/.*/(unit|integration)/.*\.py$",          # Unit or integration tests
+...     ".*/(test_|.*_test)\.py$"                       # Files starting with test_ or ending with _test
+... ]
+>>> for pattern in patterns:
+...     suites = discovery.discover("src/thanos", pattern)
+...     print(f"Regex pattern '{pattern}': {len(suites)} suites")
+... 
+No files found matching pattern 'ets/*/project*/py3/test/*/performance/*.py' in directory 'src/thanos' 
+Regex pattern 'ets/*/project*/py3/test/*/performance/*.py': 0 suites
+Regex pattern 'app/(backend|frontend)/.*/test_.*\.py$': 7 suites
+No files found matching pattern 'tests/.*/(unit|integration)/.*\.py$' in directory 'src/thanos' 
+Regex pattern 'tests/.*/(unit|integration)/.*\.py$': 0 suites
+No files found matching pattern '.*/(test_|.*_test)\.py$' in directory 'src/thanos' 
+Regex pattern '.*/(test_|.*_test)\.py$': 0 suites
+>>> 
