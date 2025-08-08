@@ -82,6 +82,9 @@ def example_filtered_discovery():
     
     base_dir = Path("src/thanos")
     files = discoverer.discover_files(base_dir, "*test*")
+    if not files:
+        print("No test files found.")
+        return
     print(f"Found {len(files)} test-related files:")
     for file in files:
         print(f"  {file}")
@@ -177,6 +180,9 @@ def example_decorator_specific():
     
     # Find only @testsuite decorated classes
     testsuite_classes = discovery.discover_by_decorator("src/thanos", "testsuite")
+    if not testsuite_classes:
+        print("No @testsuite classes found.")
+        return
     print(f"Found {len(testsuite_classes)} @testsuite classes")
     
     for suite in testsuite_classes:

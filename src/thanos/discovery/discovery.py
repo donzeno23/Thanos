@@ -28,7 +28,9 @@ class TestSuiteDiscovery:
         
         # Discover files
         files = self.discoverer.discover_files(directory, pattern)
-        
+        if not files:
+            print(f"No files found matching pattern '{pattern}' in directory '{directory}' ")
+            return []
         # Parse files for test suites
         all_test_suites = []
         for file_path in files:
