@@ -7,6 +7,7 @@ from testplan.report.testing.styles import Style, StyleEnum
 
 from thanos.tests.test_suite_basic import BasicSuite
 from thanos.tests.test_suite_performance import PerformanceTestSuite
+from thanos.engine.eu.app_one.test_suite_one import PerfTestSuite
 
 
 @test_plan(
@@ -26,9 +27,15 @@ def main(plan: Testplan):
        name='Performance Tests',
        suites=[PerformanceTestSuite(name='PerformanceTestSuite')]
     )
+
+    perf_test_mt = MultiTest(
+        name='PerfTestSuite',
+        suites=[PerfTestSuite(name='PerfTestSuite')]
+    )
     
     plan.add(test)
     plan.add(performance_test)
+    plan.add(perf_test_mt)
 
 
 if __name__ == '__main__':

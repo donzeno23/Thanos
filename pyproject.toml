@@ -9,12 +9,16 @@ readme = "README.md"
 requires-python = ">=3.11.9"
 dependencies = [
     "polars (>=1.32.0,<2.0.0)",
-    "click (>=8.2.2,<9.0.0)",
+    "click (>=8.1.0,<9.0.0)",
     "pydantic (>=2.11.7,<3.0.0)",
     "rich (>=14.1.0,<15.0.0)",
     "testplan (>=25.3.0,<26.0.0)",
-    "marshmallow (==3.20.1)"
+    "marshmallow (==3.20.1)",
+    "questionary (>=2.0.0,<3.0.0)"
 ]
+
+[project.scripts]
+thanos = "thanos.cli:main"
 
 
 [build-system]
