@@ -71,6 +71,7 @@ class TestRunner:
             stdout_style=Style(passing="testcase", failing="assertion-detail"),
             pdf_path=os.path.join(os.path.dirname(__file__), f"{name.lower().replace(' ', '_')}_report.pdf"),
             pdf_style=Style(passing="testcase", failing="assertion-detail"),
+            parse_cmdline=False,
         )
         def plan(testplan: Testplan):
             test = MultiTest(

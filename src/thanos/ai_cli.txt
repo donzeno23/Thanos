@@ -167,3 +167,44 @@ The CLI structure is now properly organized with the main entry point in the CLI
 +1
 
 Rules
+
+
++++++++++++
+
+
+Perfect! The CLI is now working correctly. The error has been fixed by adding parse_cmdline=False to the @test_plan decorator.
+
+Summary
+The Problem:
+The testplan framework was trying to parse your CLI arguments (perf run) as its own command-line arguments, causing a conflict.
+
+The Solution:
+Added parse_cmdline=False to the @test_plan decorator in the _run_test_plan method, which tells testplan not to parse command-line arguments and instead run programmatically.
+
+Your CLI Now Works:
+
+thanos perf run - Runs performance tests
+
+thanos basic run-basic - Runs basic tests
+
+thanos performance run - Alias for performance tests
+
+The test execution shows your framework is working properly:
+
+✅ Tests are running with parameterized values
+
+✅ Stage dependencies are working correctly
+
+✅ Failure simulation is working (rate=4 causes expected failures)
+
+✅ Results are being cached and uploaded
+
+✅ PDF reports are being generated
+
+Your CLI commands are now fully functional!
+
+
+
+@Pin Context
++1
+
